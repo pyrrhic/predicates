@@ -32,11 +32,16 @@
   (every? #(has-award? book %) awards))
 
 (defn my-some [pred a-seq]
-  (filter pred a-seq))
+  (let [result (filter #(boolean %) (map pred a-seq))]
+    (first result)))
 
 (defn my-every? [pred a-seq]
-  :-)
+  (let [only-false-values (filter false? (map pred a-seq))]
+    (if (empty? only-false-values)
+      true
+      (first only-false-values))))
 
 (defn prime? [n]
-  :-)
+  (let [pred (fn [x] (= (mod n x) 0))]
+    (not (some pred (range 2 n)))))
 ;^^
